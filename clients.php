@@ -32,7 +32,7 @@
 				<div class="card">
 					<div class="card-header">
 						<b>Lista de Clientes </b>
-						<span class="float:right"><a class="btn btn-primary col-sm-6 col-md-2 float-right" href="javascript:void(0)" id="new_student">
+						<span class="float:right"><a class="btn btn-primary col-sm-6 col-md-2 float-right" href="javascript:void(0)" id="new_clients">
 								<i class="fa fa-plus"></i> Agregar
 							</a></span>
 					</div>
@@ -50,8 +50,8 @@
 							<tbody>
 								<?php
 								$i = 1;
-								$student = $conn->query("SELECT * FROM student order by name asc ");
-								while ($row = $student->fetch_assoc()) :
+								$clients = $conn->query("SELECT * FROM clients order by name asc ");
+								while ($row = $clients->fetch_assoc()) :
 								?>
 									<tr>
 										<td class="text-center"><?php echo $i++ ?></td>
@@ -67,8 +67,8 @@
 											<p>Dirección: <?php echo $row['address'] ?></p>
 										</td>
 										<td class="text-center">
-											<button class="btn btn-primary edit_student" type="button" data-id="<?php echo $row['id'] ?>"><i class="fa fa-edit"></i></button>
-											<button class="btn btn-danger delete_student" type="button" data-id="<?php echo $row['id'] ?>"><i class="fa fa-trash-alt"></i></button>
+											<button class="btn btn-primary edit_clients" type="button" data-id="<?php echo $row['id'] ?>"><i class="fa fa-edit"></i></button>
+											<button class="btn btn-danger delete_clients" type="button" data-id="<?php echo $row['id'] ?>"><i class="fa fa-trash-alt"></i></button>
 										</td>
 									</tr>
 								<?php endwhile; ?>
@@ -102,22 +102,22 @@
 	$(document).ready(function() {
 		$('table').dataTable()
 	})
-	$('#new_student').click(function() {
-		uni_modal("Nuevo Cliente ", "manage_student.php", "mid-large")
+	$('#new_clients').click(function() {
+		uni_modal("Nuevo Cliente ", "manage_clients.php", "mid-large")
 
 	})
-	$('.edit_student').click(function() {
-		uni_modal("Gestionar Información del cliente", "manage_student.php?id=" + $(this).attr('data-id'), "mid-large")
+	$('.edit_clients').click(function() {
+		uni_modal("Gestionar Información del cliente", "manage_clients.php?id=" + $(this).attr('data-id'), "mid-large")
 
 	})
-	$('.delete_student').click(function() {
-		_conf("Deseas eliminar este Cliente? ", "delete_student", [$(this).attr('data-id')])
+	$('.delete_clients').click(function() {
+		_conf("Deseas eliminar este Cliente? ", "delete_clients", [$(this).attr('data-id')])
 	})
 
-	function delete_student($id) {
+	function delete_clients($id) {
 		start_load()
 		$.ajax({
-			url: 'ajax.php?action=delete_student',
+			url: 'ajax.php?action=delete_clients',
 			method: 'POST',
 			data: {
 				id: $id

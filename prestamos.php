@@ -43,7 +43,9 @@
 									<th class="text-center">#</th>
 									<th class="">Creado</th>
 									<th class="">Prestamo</th>
+									<th class="">Tipo de Pago</th>
 									<th class="">Descripción</th>
+									<th class="">Interes</th>
 									<th class="">Monto Total</th>
 									<th class="text-center">Acción</th>
 								</tr>
@@ -62,8 +64,14 @@
 									<td>
 										<?php echo $row['prestamo'] ?>
 									</td>
+									<td>
+										<?php echo $row['level'] ?>
+									</td>
 									<td class="">
 										<p><?php echo $row['description'] ?></p>
+									</td>
+									<td>
+										<?php echo $row['interes'] . '%'  ?>
 									</td>
 									<td class="text-right">
 										<?php echo number_format($row['total_amount'], 2) ?>

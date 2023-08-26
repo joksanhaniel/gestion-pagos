@@ -60,14 +60,14 @@
 								<?php
 								$i = 1;
 								$employee = $conn->query("SELECT * from employees  where id in (SELECT frm_id FROM logs where date(date_created) = '$date' and type='employees')");
-								$student = $conn->query("SELECT * from students  where id in (SELECT frm_id FROM logs where date(date_created) = '$date' and type='students')");
+								$client = $conn->query("SELECT * from students  where id in (SELECT frm_id FROM logs where date(date_created) = '$date' and type='students')");
 								$faculty = $conn->query("SELECT * from faculty  where id in (SELECT frm_id FROM logs where date(date_created) = '$date' and type='faculty')");
 								$visitor = $conn->query("SELECT * from visitors  where id in (SELECT frm_id FROM logs where date(date_created) = '$date' and type='visitor')");
 								$arr_data = array();
 								while ($row = $employee->fetch_array()) {
 									$arr_data['employees'][$row['id']] = $row;
 								}
-								while ($row = $student->fetch_array()) {
+								while ($row = $client->fetch_array()) {
 									$arr_data['students'][$row['id']] = $row;
 								}
 								while ($row = $faculty->fetch_array()) {

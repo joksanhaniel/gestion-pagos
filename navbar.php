@@ -11,7 +11,7 @@
 <nav id="sidebar" class='mx-lt-5 bg-white'>
 
 	<div class="sidebar-list">
-		<a href="index.php?page=clients" class="nav-item nav-students"><span class='icon-field'><i class="fa fa-users "></i></span> Clientes</a>
+		<a href="index.php?page=clients" class="nav-item nav-clients"><span class='icon-field'><i class="fa fa-users "></i></span> Clientes</a>
 		<a href="index.php?page=fees" class="nav-item nav-fees"><span class='icon-field'><i class="fa fa-money-check "></i></span> Contratos de Pago</a>
 		<a href="index.php?page=prestamos" class="nav-item nav-prestamos"><span class='icon-field'><i class="fa fa-scroll "></i></span> Prestamos</a>
 

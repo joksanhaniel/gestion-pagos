@@ -1,7 +1,7 @@
 <?php include 'db_connect.php' ?>
 <?php
 if (isset($_GET['id'])) {
-	$qry = $conn->query("SELECT * FROM student_ef_list where id = {$_GET['id']} ");
+	$qry = $conn->query("SELECT * FROM clients_ef_list where id = {$_GET['id']} ");
 	foreach ($qry->fetch_array() as $k => $v) {
 		$$k = $v;
 	}
@@ -17,13 +17,13 @@ if (isset($_GET['id'])) {
 		</div>
 		<div class="form-group">
 			<label for="" class="control-label">Cliente</label>
-			<select name="student_id" id="student_id" class="custom-select input-sm select2">
+			<select name="clients_id" id="clients_id" class="custom-select input-sm select2">
 				<option value=""></option>
 				<?php
-				$student = $conn->query("SELECT * FROM student order by name asc ");
-				while ($row = $student->fetch_assoc()) :
+				$clients = $conn->query("SELECT * FROM clients order by name asc ");
+				while ($row = $clients->fetch_assoc()) :
 				?>
-					<option value="<?php echo $row['id'] ?>" <?php echo isset($student_id) && $student_id == $row['id'] ? 'selected' : '' ?>><?php echo ucwords($row['name']) . ' | ' . $row['id_no'] ?></option>
+					<option value="<?php echo $row['id'] ?>" <?php echo isset($clients_id) && $clients_id == $row['id'] ? 'selected' : '' ?>><?php echo ucwords($row['name']) . ' | ' . $row['id_no'] ?></option>
 				<?php endwhile; ?>
 			</select>
 		</div>
@@ -32,8 +32,8 @@ if (isset($_GET['id'])) {
 			<select name="prestamo_id" id="prestamo_id" class="custom-select input-sm select2">
 				<option value=""></option>
 				<?php
-				$student = $conn->query("SELECT *,concat(prestamo,'-',level) as class FROM prestamos order by prestamo asc ");
-				while ($row = $student->fetch_assoc()) :
+				$clients = $conn->query("SELECT *,concat(prestamo,'-',level) as class FROM prestamos order by prestamo asc ");
+				while ($row = $clients->fetch_assoc()) :
 				?>
 					<option value="<?php echo $row['id'] ?>" data-amount="<?php echo $row['total_amount'] ?>" <?php echo isset($prestamo_id) && $prestamo_id == $row['id'] ? 'selected' : '' ?>><?php echo $row['class'] ?></option>
 				<?php endwhile; ?>

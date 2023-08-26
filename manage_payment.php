@@ -16,7 +16,7 @@ if (isset($_GET['id'])) {
 			<select name="ef_id" id="ef_id" class="custom-select input-sm select2">
 				<option value=""></option>
 				<?php
-				$fees = $conn->query("SELECT ef.*,s.name as sname,s.id_no FROM student_ef_list ef inner join student s on s.id = ef.student_id order by s.name asc ");
+				$fees = $conn->query("SELECT ef.*,s.name as sname,s.id_no FROM clients_ef_list ef inner join clients s on s.id = ef.clients_id order by s.name asc ");
 				while ($row = $fees->fetch_assoc()) :
 					$paid = $conn->query("SELECT sum(amount) as paid FROM payments where ef_id=" . $row['id'] . (isset($id) ? " and id!=$id " : ''));
 					$paid = $paid->num_rows > 0 ? $paid->fetch_array()['paid'] : '';

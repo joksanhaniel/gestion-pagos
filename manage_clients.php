@@ -1,14 +1,14 @@
 <?php
 include 'db_connect.php';
 if (isset($_GET['id'])) {
-    $qry = $conn->query("SELECT * FROM student where id= " . $_GET['id']);
+    $qry = $conn->query("SELECT * FROM clients where id= " . $_GET['id']);
     foreach ($qry->fetch_array() as $k => $val) {
         $$k = $val;
     }
 }
 ?>
 <div class="container-fluid">
-    <form action="" id="manage-student">
+    <form action="" id="manage-clients">
         <input type="hidden" name="id" value="<?php echo isset($id) ? $id : '' ?>">
         <div id="msg" class="form-group"></div>
         <div class="form-group">
@@ -35,16 +35,16 @@ if (isset($_GET['id'])) {
 </div>
 
 <script>
-    $('#manage-student').on('reset', function() {
+    $('#manage-clients').on('reset', function() {
         $('#msg').html('')
         $('input:hidden').val('')
     })
-    $('#manage-student').submit(function(e) {
+    $('#manage-clients').submit(function(e) {
         e.preventDefault()
         start_load()
         $('#msg').html('')
         $.ajax({
-            url: 'ajax.php?action=save_student',
+            url: 'ajax.php?action=save_clients',
             data: new FormData($(this)[0]),
             cache: false,
             contentType: false,

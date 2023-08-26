@@ -36,12 +36,6 @@ if (isset($_GET['id'])) {
                 </div>
 
                 <div class="form-group">
-                <label for="" class="control-label">Tipo</label>
-                    <select class="form-control" name="level" required>
-                    <option value="JAJAJAJA"<?php echo $prestamo == 'JAJAJAJA' ? ' selected' : ''; ?>>JAJAJAJA</option>
-                </select>
-                </div>
-                <div class="form-group">
                     <label for="" class="control-label">Descripción</label>
                     <textarea name="description" id="" cols="30" rows="4" class="form-control" required=""><?php echo isset($description) ? $description : '' ?></textarea>
                 </div>
@@ -51,35 +45,51 @@ if (isset($_GET['id'])) {
                 <hr>
                 <div class="">
                 <div class="form-group mb-2">
-                    <label for="ft" class="control-label">Tipo de Pago</label>
-                        <select class="form-control" id="ft" name="level" required>
-                            <option value="pago Semanal" <?php echo $level == 'Pago Semanal' ? 'selected' : ''; ?>>Pago Semanal</option>
-                            <option value="Pago Quincenal" <?php echo $level == 'Pago Quincenal' ? 'selected' : ''; ?>>Pago Quincenal</option>
-                            <option value="Pago Mensual" <?php echo $level == 'Pago Mensual' ? 'selected' : ''; ?>>Pago Mensual</option>
-                        </select>
-                </div>
+    <label for="" class="control-label">Tipo de Pago</label>
+    <select class="form-control" name="level" required>
+        <option value="pago Semanal" <?php echo $level == 'pago Semanal' ? 'selected' : ''; ?>>Pago Semanal</option>
+        <option value="Pago Quincenal" <?php echo $level == 'Pago Quincenal' ? 'selected' : ''; ?>>Pago Quincenal</option>
+        <option value="Pago Mensual" <?php echo $level == 'Pago Mensual' ? 'selected' : ''; ?>>Pago Mensual</option>
+    </select>
+</div>
+
+<div class="form-group mb-2">
+    <label for="interes" class="control-label">% de Interes</label>
+    <select class="form-control" id="interes" name="interes" required>
+        <?php
+        $interes = range(0, 100);
+        foreach ($interes as $ints) {
+            $percentage = $ints . '%';
+            echo '<option value="' . $ints . '">' . $percentage . '</option>';
+        }
+        ?>
+    </select>
+</div>
+
                     <div class="form-group">
                         <label for="" class="control-label">Monto</label>
                         <input type="number" step="any" min="0" id="amount" class="form-control text-right">
                     </div>
                     <div class="form-group pt-1">
-                        <label for="" class="control-label">&nbsp;</label>
-                        <button class="btn btn-primary btn-sm" type="button" id="add_fee">Agregar a la Lista</button>
-                    </div>
+    <label for="" class="control-label">&nbsp;</label>
+    <button class="btn btn-primary btn-sm" type="button" id="add_fee">Agregar a la Lista</button>
+</div>
+
                 </div>
                 <hr>
                 <table class="table table-condensed" id="fee-list">
                     <thead>
                         <tr>
                             <th width="5%"></th>
+                            <th width="20%">Interes</th>
                             <th width="50%">Prestamo</th>
                             <th width="45%">Monto</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php
+                    <?php
                         if (isset($id)) :
-                            $fees = $conn->query("SELECT * FROM fees where prestamo_id = $id");
+                            $fees = $conn->query("SELECT * FROM fees WHERE prestamo_id = $id");
                             $total = 0;
                             while ($row = $fees->fetch_assoc()) :
                                 $total += $row['amount'];
@@ -87,9 +97,12 @@ if (isset($_GET['id'])) {
                                 <tr>
                                     <td class="text-center"><button class="btn-sm btn-outline-danger" type="button" onclick="rem_list($(this))"><i class="fa fa-times"></i></button></td>
                                     <td>
+                                        <?php echo $row['interes'] . '%' ?>
+                                    </td>
+                                    <td>
                                         <input type="hidden" name="fid[]" value="<?php echo $row['id'] ?>">
-                                        <input type="hidden" name="type[]" value="<?php echo $row['prestamo'] ?>">
-                                        <p><small><b class="ftype"><?php echo $row['prestamo'] ?></b></small></p>
+                                        <input type="hidden" name="type[]" value="<?php echo $row['prestamo_id'] ?>">
+                                        <p><small><b class="ftype"><?php echo $row['prestamo_id'] ?></b></small></p>
                                     </td>
                                     <td>
                                         <input type="hidden" name="amount[]" value="<?php echo $row['amount'] ?>">
@@ -105,8 +118,8 @@ if (isset($_GET['id'])) {
 
                     <tfoot>
                         <tr>
-                            <th colspan="2" class="text-center">Total</th>
-                            <th class="text-right">
+                            <th colspan="1" class="text-center">Total</th>
+                            <th colspan='2' class="text-right">
                                 <input type="hidden" name="total_amount" value="<?php echo isset($total) ? $total : 0 ?>">
                                 <span class="tamount"><?php echo isset($total) ? number_format($total, 2) : '0.00' ?></span>
                             </th>
@@ -134,11 +147,82 @@ if (isset($_GET['id'])) {
     </table>
 </div>
 
-<script>
+<!-- <script>
     $('#manage-prestamo').on('reset', function() {
         $('#msg').html('')
         $('input:hidden').val('')
     })
+    $('#add_fee').click(function() {
+        var ft = $('#ft').val()
+        var amount = $('#amount').val()
+        if (amount == '' || ft == '') {
+            alert_toast("Complete primero el campo Tipo de tarifa y monto.", 'warning')
+            return false;
+        }
+        var tr = $('#fee_clone tr').clone()
+        tr.find('[name="type[]"]').val(ft)
+        tr.find('.ftype').text(ft)
+        tr.find('[name="amount[]"]').val(amount)
+        tr.find('.famount').text(parseFloat(amount).toLocaleString('en-US'))
+        $('#fee-list tbody').append(tr)
+        $('#ft').val('').focus()
+        $('#amount').val('')
+        calculate_total()
+    })
+
+    function calculate_total() {
+        var total = 0;
+        $('#fee-list tbody').find('[name="amount[]"]').each(function() {
+            total += parseFloat($(this).val())
+        })
+        $('#fee-list tfoot').find('.tamount').text(parseFloat(total).toLocaleString('en-US'))
+        $('#fee-list tfoot').find('[name="total_amount"]').val(total)
+
+    }
+
+    function rem_list(_this) {
+        _this.closest('tr').remove()
+        calculate_total()
+    }
+    $('#manage-prestamo').submit(function(e) {
+        e.preventDefault()
+        start_load()
+        $('#msg').html('')
+        if ($('#fee-list tbody').find('[name="fid[]"]').length <= 0) {
+            alert_toast("Inserte al menos 1 fila en la tabla de tarifas", 'danger')
+            end_load()
+            return false;
+        }
+        $.ajax({
+            url: 'ajax.php?action=save_prestamo',
+            data: new FormData($(this)[0]),
+            cache: false,
+            contentType: false,
+            processData: false,
+            method: 'POST',
+            type: 'POST',
+            success: function(resp) {
+                if (resp == 1) {
+                    alert_toast("Datos guardados con éxito.", 'success')
+                    setTimeout(function() {
+                        location.reload()
+                    }, 1000)
+                } else if (resp == 2) {
+                    $('#msg').html('<div class="alert alert-danger mx-2">El nombre del prestamo y el tipo ya existen.</div>')
+                    end_load()
+                }
+            }
+        })
+    })
+
+    $('.select2').select2({
+        placeholder: "Seleccione aquí",
+        width: '100%'
+    })
+</script> -->
+
+
+<script>
     $('#add_fee').click(function() {
         var ft = $('#ft').val()
         var amount = $('#amount').val()

@@ -58,13 +58,13 @@ if($action == "delete_prestamo"){
 	if($delete)
 		echo $delete;
 }
-if($action == "save_student"){
-	$save = $crud->save_student();
+if($action == "save_clients"){
+	$save = $crud->save_clients();
 	if($save)
 		echo $save;
 }
-if($action == "delete_student"){
-	$delete = $crud->delete_student();
+if($action == "delete_clients"){
+	$delete = $crud->delete_clients();
 	if($delete)
 		echo $delete;
 }

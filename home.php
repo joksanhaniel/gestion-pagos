@@ -70,7 +70,7 @@
                         <tbody>
                             <?php
                             $i = 1;
-                            $payments = $conn->query("SELECT p.*,s.name as sname, ef.ef_no,s.id_no FROM payments p inner join student_ef_list ef on ef.id = p.ef_id inner join student s on s.id = ef.student_id order by unix_timestamp(p.date_created) desc ");
+                            $payments = $conn->query("SELECT p.*,s.name as sname, ef.ef_no,s.id_no FROM payments p inner join clients_ef_list ef on ef.id = p.ef_id inner join clients s on s.id = ef.clients_id order by unix_timestamp(p.date_created) desc ");
                             if ($payments->num_rows > 0) :
                                 while ($row = $payments->fetch_assoc()) :
                                     $paid = $conn->query("SELECT sum(amount) as paid FROM payments where ef_id=" . $row['id']);

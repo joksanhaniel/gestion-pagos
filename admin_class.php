@@ -188,60 +188,8 @@ Class Action {
 			return 1;
 				}
 	}
-	// function save_prestamo(){
-	// 	extract($_POST);
-	// 	$data = "";
-	// 	foreach($_POST as $k => $v){
-	// 		if(!in_array($k, array('id','fid','type','amount')) && !is_numeric($k)){
-	// 			if(empty($data)){
-	// 				$data .= " $k='$v' ";
-	// 			}else{
-	// 				$data .= ", $k='$v' ";
-	// 			}
-	// 		}
-	// 	}
-	// 	$check = $this->db->query("SELECT * FROM prestamos where prestamo ='$prestamo' and level ='$level' ".(!empty($id) ? " and id != {$id} " : ''))->num_rows;
-	// 	if($check > 0){
-	// 		return 2;
-	// 		exit;
-	// 	}
-	// 	if(empty($id)){
-	// 		$save = $this->db->query("INSERT INTO prestamos set $data");
-	// 		if($save){
-	// 			$id = $this->db->insert_id;
-	// 			foreach($fid as $k =>$v){
-	// 				$data .= " prestamo='$prestamo' ";
-	// 				$data .= ", description = '{$type[$k]}' ";
-	// 				$data .= ", amount = '{$amount[$k]}' ";
-	// 				$save2[] = $this->db->query("INSERT INTO fees set $data");
-	// 			}
-	// 			if(isset($save2))
-	// 				return 1;
-				
-	// 		}
-			
-	// 	}else{
-	// 		$save = $this->db->query("UPDATE prestamos set $data where id = $id");
-	// 		if($save){
-	// 			$this->db->query("DELETE FROM fees where prestamo_id = $id and id not in (".implode(',',$fid).") ");
-	// 			foreach($fid as $k =>$v){
-	// 				$data = " prestamo_id = '$id' ";
-	// 				$data .= ", description = '{$type[$k]}' ";
-	// 				$data .= ", amount = '{$amount[$k]}' ";
-	// 				if(empty($v)){
-	// 					$save2[] = $this->db->query("INSERT INTO fees set $data");
-	// 				}else{
-	// 					$save2[] = $this->db->query("UPDATE fees set $data where id = $v");
-	// 				}
-	// 			}
-	// 			if(isset($save2))
-	// 				return 1;
-	// 		}
-	// 	}
-	// }
 
-
-		function save_prestamo(){
+	function save_prestamo(){
 		extract($_POST);
 		$data = "";
 		foreach($_POST as $k => $v){
@@ -266,6 +214,7 @@ Class Action {
 					$data = " prestamo_id = '$id' ";
 					$data .= ", description = '{$type[$k]}' ";
 					$data .= ", amount = '{$amount[$k]}' ";
+					$data .= ", interes = '{$interes[$k]}' ";
 					$save2[] = $this->db->query("INSERT INTO fees set $data");
 				}
 				if(isset($save2))
@@ -279,6 +228,7 @@ Class Action {
 					$data = " prestamo_id = '$id' ";
 					$data .= ", description = '{$type[$k]}' ";
 					$data .= ", amount = '{$amount[$k]}' ";
+					$data .= ", interes = '{$interes[$k]}' "; // Cambio: Agregar el valor del interés al arreglo 'data'
 					if(empty($v)){
 						$save2[] = $this->db->query("INSERT INTO fees set $data");
 					}else{
@@ -289,7 +239,6 @@ Class Action {
 						return 1;
 			}
 		}
-
 	}
 	
 	function delete_prestamo(){
@@ -300,7 +249,7 @@ Class Action {
 			return 1;
 		}
 	}
-	function save_student(){
+	function save_clients(){
 		extract($_POST);
 		$data = "";
 		foreach($_POST as $k => $v){
@@ -312,22 +261,22 @@ Class Action {
 				}
 			}
 		}
-		$check = $this->db->query("SELECT * FROM student where id_no ='$id_no' ".(!empty($id) ? " and id != {$id} " : ''))->num_rows;
+		$check = $this->db->query("SELECT * FROM clients where id_no ='$id_no' ".(!empty($id) ? " and id != {$id} " : ''))->num_rows;
 		if($check > 0){
 			return 2;
 			exit;
 		}
 		if(empty($id)){
-			$save = $this->db->query("INSERT INTO student set $data");
+			$save = $this->db->query("INSERT INTO clients set $data");
 		}else{
-			$save = $this->db->query("UPDATE student set $data where id = $id");
+			$save = $this->db->query("UPDATE clients set $data where id = $id");
 		}
 		if($save)
 			return 1;
 	}
-	function delete_student(){
+	function delete_clients(){
 		extract($_POST);
-		$delete = $this->db->query("DELETE FROM student where id = ".$id);
+		$delete = $this->db->query("DELETE FROM clients where id = ".$id);
 		if($delete){
 			return 1;
 		}
@@ -347,22 +296,22 @@ Class Action {
 				}
 			}
 		}
-		$check = $this->db->query("SELECT * FROM student_ef_list where ef_no ='$ef_no' ".(!empty($id) ? " and id != {$id} " : ''))->num_rows;
+		$check = $this->db->query("SELECT * FROM clients_ef_list where ef_no ='$ef_no' ".(!empty($id) ? " and id != {$id} " : ''))->num_rows;
 		if($check > 0){
 			return 2;
 			exit;
 		}
 		if(empty($id)){
-			$save = $this->db->query("INSERT INTO student_ef_list set $data");
+			$save = $this->db->query("INSERT INTO clients_ef_list set $data");
 		}else{
-			$save = $this->db->query("UPDATE student_ef_list set $data where id = $id");
+			$save = $this->db->query("UPDATE clients_ef_list set $data where id = $id");
 		}
 		if($save)
 			return 1;
 	}
 	function delete_fees(){
 		extract($_POST);
-		$delete = $this->db->query("DELETE FROM student_ef_list where id = ".$id);
+		$delete = $this->db->query("DELETE FROM clients_ef_list where id = ".$id);
 		if($delete){
 			return 1;
 		}
