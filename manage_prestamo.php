@@ -79,11 +79,13 @@ if (isset($_GET['id'])) {
                 <hr>
                 <table class="table table-condensed" id="fee-list">
                     <thead>
-                        <tr>
-                            <th width="5%"></th>
-                            <th width="20%">Interes</th>
-                            <th width="50%">Prestamo</th>
-                            <th width="45%">Monto</th>
+                        <tr width="text-right">
+                            <th width="90%"></th>
+                            <!-- <th width="20%">Interes</th>
+                            <th width="50%">Prestamo</th> -->
+                            <th width="50%">Monto</th>
+
+
                         </tr>
                     </thead>
                     <tbody>
@@ -106,7 +108,7 @@ if (isset($_GET['id'])) {
                                     </td>
                                     <td>
                                         <input type="hidden" name="amount[]" value="<?php echo $row['amount'] ?>">
-                                        <p class="text-right"><small><b class="famount"><?php echo number_format($row['amount']) ?></b></small></p>
+                                        <p class=""><small><b class="famount"><?php echo number_format($row['amount']) ?></b></small></p>
                                     </td>
                                 </tr>
                         <?php
@@ -147,9 +149,11 @@ if (isset($_GET['id'])) {
     </table>
 </div>
 
-
-
-<script>
+<!-- <script>
+    $('#manage-prestamo').on('reset', function() {
+        $('#msg').html('')
+        $('input:hidden').val('')
+    })
     $('#add_fee').click(function() {
         var ft = $('#ft').val()
         var amount = $('#amount').val()
@@ -167,6 +171,98 @@ if (isset($_GET['id'])) {
         $('#amount').val('')
         calculate_total()
     })
+
+    function calculate_total() {
+        var total = 0;
+        $('#fee-list tbody').find('[name="amount[]"]').each(function() {
+            total += parseFloat($(this).val())
+        })
+        $('#fee-list tfoot').find('.tamount').text(parseFloat(total).toLocaleString('en-US'))
+        $('#fee-list tfoot').find('[name="total_amount"]').val(total)
+
+    }
+
+    function rem_list(_this) {
+        _this.closest('tr').remove()
+        calculate_total()
+    }
+    $('#manage-prestamo').submit(function(e) {
+        e.preventDefault()
+        start_load()
+        $('#msg').html('')
+        if ($('#fee-list tbody').find('[name="fid[]"]').length <= 0) {
+            alert_toast("Inserte al menos 1 fila en la tabla de tarifas", 'danger')
+            end_load()
+            return false;
+        }
+        $.ajax({
+            url: 'ajax.php?action=save_prestamo',
+            data: new FormData($(this)[0]),
+            cache: false,
+            contentType: false,
+            processData: false,
+            method: 'POST',
+            type: 'POST',
+            success: function(resp) {
+                if (resp == 1) {
+                    alert_toast("Datos guardados con éxito.", 'success')
+                    setTimeout(function() {
+                        location.reload()
+                    }, 1000)
+                } else if (resp == 2) {
+                    $('#msg').html('<div class="alert alert-danger mx-2">El nombre del prestamo y el tipo ya existen.</div>')
+                    end_load()
+                }
+            }
+        })
+    })
+
+    $('.select2').select2({
+        placeholder: "Seleccione aquí",
+        width: '100%'
+    })
+</script> -->
+
+
+<script>
+    $('#add_fee').click(function() {
+    var interes = $('#interes').val();
+
+    var ft = $('#ft').val();
+    var amount = $('#amount').val();
+
+    if (amount == '' || interes == '') {
+        alert_toast("Complete primero los campos Tipo de tarifa, Porcentaje y Monto.", 'warning');
+        return false;
+    }
+
+    if (interes == 0) {
+        alert_toast("El porcentaje de interés seleccionado es 0.", 'warning');
+    } else {
+        var interesDecimal = parseFloat(interes) / 100; // Convertir a decimal dividiendo por 100
+        console.log("Porcentaje en decimal:", interesDecimal);
+
+        // Calcular el monto de interés
+        var montoInteres = parseFloat(amount) * interesDecimal;
+        console.log("Monto de Interés:", montoInteres);
+
+        // Sumar el monto original con el monto de interés
+        amount = parseFloat(amount) + montoInteres;
+    }
+
+    console.log("11111111", amount);
+
+    var tr = $('#fee_clone tr').clone();
+    tr.find('[name="type[]"]').val(ft);
+    tr.find('.ftype').text(ft);
+    tr.find('[name="amount[]"]').val(amount);
+    tr.find('.famount').text(parseFloat(amount).toLocaleString('en-US'));
+    $('#fee-list tbody').append(tr);
+    $('#ft').val('').focus();
+    $('#amount').val('');
+    calculate_total();
+});
+
 
     function calculate_total() {
         var total = 0;
