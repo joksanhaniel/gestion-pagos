@@ -96,9 +96,9 @@ if (isset($_GET['id'])) {
                         ?>
                                 <tr>
                                     <td class="text-center"><button class="btn-sm btn-outline-danger" type="button" onclick="rem_list($(this))"><i class="fa fa-times"></i></button></td>
-                                    <!-- <td>
+                                    <td>
                                         <?php echo $row['interes'] . '%' ?>
-                                    </td> -->
+                                    </td>
                                     <td>
                                         <input type="hidden" name="fid[]" value="<?php echo $row['id'] ?>">
                                         <input type="hidden" name="type[]" value="<?php echo $row['prestamo_id'] ?>">
@@ -140,14 +140,6 @@ if (isset($_GET['id'])) {
                 <p><small><b class="ftype"></b></small></p>
             </td>
             <td>
-                <input type="hidden" name="interes[]">
-                <p><small><b class="finteres"></b></small></p>
-            </td>
-            <td>
-                <input type="hidden" name="level[]">
-                <p><small><b class="flevel"></b></small></p>
-            </td>
-            <td>
                 <input type="hidden" name="amount[]">
                 <p class="text-right"><small><b class="famount"></b></small></p>
             </td>
@@ -159,23 +151,13 @@ if (isset($_GET['id'])) {
 
 <script>
     $('#add_fee').click(function() {
-        var interes = $('#interes').val(); // Obtener el valor del porcentaje seleccionado
-        var level = $('[name="level"]').val(); // Obtener el valor del tipo de pago seleccionado
-
-
         var ft = $('#ft').val()
         var amount = $('#amount').val()
-        if (amount == '' || interes == '' || level == '') {
-        alert_toast("Complete primero los campos Tipo de tarifa, Porcentaje y Monto.", 'warning');
-        return false;
+        if (amount == '' || ft == '') {
+            alert_toast("Complete primero el campo Tipo de tarifa y monto.", 'warning')
+            return false;
         }
-
-        
-
         var tr = $('#fee_clone tr').clone()
-        tr.find('.finteres').text(interes + '%'); 
-        tr.find('.flevel').text(level);
-
         tr.find('[name="type[]"]').val(ft)
         tr.find('.ftype').text(ft)
         tr.find('[name="amount[]"]').val(amount)
@@ -183,8 +165,6 @@ if (isset($_GET['id'])) {
         $('#fee-list tbody').append(tr)
         $('#ft').val('').focus()
         $('#amount').val('')
-        $('#interes').val(''); // Reiniciar el campo de porcentaje
-        $('[name="level"]').val('');
         calculate_total()
     })
 
