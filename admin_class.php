@@ -212,7 +212,7 @@ Class Action {
 				$id = $this->db->insert_id;
 				foreach($fid as $k =>$v){
 					$data = " prestamo_id = '$id' ";
-					$data .= ", description = '{$type[$k]}' ";
+					$data .= ", description = '{$level}' ";
 					$data .= ", amount = '{$amount[$k]}' ";
 					$data .= ", interes = '{$interes[$k]}' ";
 					$save2[] = $this->db->query("INSERT INTO fees set $data");
@@ -226,7 +226,7 @@ Class Action {
 				$this->db->query("DELETE FROM fees where prestamo_id = $id and id not in (".implode(',',$fid).") ");
 				foreach($fid as $k =>$v){
 					$data = " prestamo_id = '$id' ";
-					$data .= ", description = '{$type[$k]}' ";
+					$data .= ", description = '{$level}' ";
 					$data .= ", amount = '{$amount[$k]}' ";
 					$data .= ", interes = '{$interes[$k]}' "; // Cambio: Agregar el valor del interés al arreglo 'data'
 					if(empty($v)){

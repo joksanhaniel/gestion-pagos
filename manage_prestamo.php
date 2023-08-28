@@ -47,7 +47,7 @@ if (isset($_GET['id'])) {
                 <div class="form-group mb-2">
     <label for="" class="control-label">Tipo de Pago</label>
     <select class="form-control" name="level" required>
-        <option value="pago Semanal" <?php echo $level == 'pago Semanal' ? 'selected' : ''; ?>>Pago Semanal</option>
+        <option value="Pago Semanal" <?php echo $level == 'pago Semanal' ? 'selected' : ''; ?>>Pago Semanal</option>
         <option value="Pago Quincenal" <?php echo $level == 'Pago Quincenal' ? 'selected' : ''; ?>>Pago Quincenal</option>
         <option value="Pago Mensual" <?php echo $level == 'Pago Mensual' ? 'selected' : ''; ?>>Pago Mensual</option>
     </select>

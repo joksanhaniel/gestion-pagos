@@ -35,14 +35,7 @@
   });
 </script>
 <footer class="bg-primary text-white text-center text-lg-start fixed-bottom">
-  <!-- Grid container -->
-
-  <!-- Grid container -->
-
-  <!-- Copyright -->
-  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
-  ©Copyright MurallaSoft HN, by Our CEO ING Joksan Ramos
+  <div class="text-center p-2" style="background-color: rgba(0, 0, 0, 0.2); height: 40px;">
+    © Copyright MurallaSoft HN, by Our CEO ING Joksan Ramos
   </div>
-  <!-- Copyright -->
 </footer>
-<!--/ Copy this code to have a working example -->
