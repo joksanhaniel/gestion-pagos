@@ -10,6 +10,18 @@ if (isset($_GET['id'])) {
 <div class="container-fluid">
 	<form id="manage-fees">
 		<div id="msg"></div>
+		<!-- Agregar fechaInicial -->
+		<div class="form-group">
+        <label for="fechaInicial" class="control-label">Fecha Inicial</label>
+        <input type="date" class="form-control" name="fechaInicial" required>
+    </div>
+    
+    <!-- Agregar fechaFinal -->
+    <div class="form-group">
+        <label for="fechaFinal" class="control-label">Fecha Final</label>
+        <input type="date" class="form-control" name="fechaFinal" required>
+    </div>
+
 		<input type="hidden" name="id" value="<?php echo isset($id) ? $id : '' ?>">
 		<div class="form-group">
 			<label for="" class="control-label">Nº Prestamo</label>
@@ -32,7 +44,7 @@ if (isset($_GET['id'])) {
 			<select name="prestamo_id" id="prestamo_id" class="custom-select input-sm select2">
 				<option value=""></option>
 				<?php
-				$clients = $conn->query("SELECT *,concat(prestamo,'-',level) as class FROM prestamos order by prestamo asc ");
+				$clients = $conn->query("SELECT *,concat(prestamo,'-',level,'-',description,'-', date_created) as class FROM prestamos order by prestamo asc ");
 				while ($row = $clients->fetch_assoc()) :
 				?>
 					<option value="<?php echo $row['id'] ?>" data-amount="<?php echo $row['total_amount'] ?>" <?php echo isset($prestamo_id) && $prestamo_id == $row['id'] ? 'selected' : '' ?>><?php echo $row['class'] ?></option>

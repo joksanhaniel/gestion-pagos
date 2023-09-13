@@ -41,10 +41,13 @@
 							<thead>
 								<tr>
 									<th class="text-center">#</th>
-									<th class="">No. Prestamo</th>
+									<th class="">Prestamo</th>
+									<th class="">Fecha Inicial</th>
+									<th class="">Fecha Final</th>
+									<th class="">Estado</th>
 									<th class="">DNI</th>
 									<th class="">Nombre</th>
-									<th class="">Monto del Prestamo</th>
+									<th class="">Monto</th>
 									<th class="">Pago</th>
 									<th class="">Balance</th>
 									<th class="text-center">Acción</th>
@@ -65,10 +68,19 @@
 											<p> <?php echo $row['ef_no'] ?></p>
 										</td>
 										<td>
-											<p> <?php echo $row['id_no'] ?></p>
+											<p> <?php echo $row['fechaInicial'] ?></p>
 										</td>
 										<td>
-											
+											<p> <?php echo $row['fechaFinal'] ?></p>
+										</td>
+										<td>
+											<p> <?php echo $row['Status'] ?></p>
+										</td>
+										<td>
+											<p> <?php echo $row['id_no'] ?></p>
+										</td>
+										
+										<td>
 											<p> <?php echo ucwords($row['sname']) ?></p>
 										</td>
 										<td class="text-right">
@@ -166,15 +178,15 @@
     var total_balance = 0;
 
     table.rows().every(function(rowIdx, tableLoop, rowLoop) {
-        total_loan += parseFloat(table.cell(rowIdx, 4).data().replace(/[^0-9.-]+/g,"")) || 0; // replace 4 with the index of the loan amount column
-        total_payment += parseFloat(table.cell(rowIdx, 5).data().replace(/[^0-9.-]+/g,"")) || 0; // replace 5 with the index of the payment column
-        total_balance += parseFloat(table.cell(rowIdx, 6).data().replace(/[^0-9.-]+/g,"")) || 0; // replace 6 with the index of the balance column
+        total_loan += parseFloat(table.cell(rowIdx, 7).data().replace(/[^0-9.-]+/g,"")) || 0; // replace 4 with the index of the loan amount column
+        total_payment += parseFloat(table.cell(rowIdx, 8).data().replace(/[^0-9.-]+/g,"")) || 0; // replace 5 with the index of the payment column
+        total_balance += parseFloat(table.cell(rowIdx, 9).data().replace(/[^0-9.-]+/g,"")) || 0; // replace 6 with the index of the balance column
     });
 
     // append the totals row to the table
     $('.table.table-condensed.table-bordered.table-hover tbody').append(
         '<tr>'+
-            '<td colspan="4" class="text-right"><strong>Total:</strong></td>'+
+            '<td colspan="7" class="text-right"><strong>Total:</strong></td>'+
             '<td class="text-right"><strong>' + total_loan.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</strong></td>'+
             '<td class="text-right"><strong>' + total_payment.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</strong></td>'+
             '<td class="text-right"><strong>' + total_balance.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</strong></td>'+

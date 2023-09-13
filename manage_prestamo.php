@@ -16,6 +16,16 @@ if (isset($_GET['id'])) {
                 <hr>
                 <div id="msg" class="form-group"></div>
                 <div class="form-group">
+        <label for="fechaInicial" class="control-label">Fecha Inicial</label>
+        <input type="date" class="form-control" name="fechaInicial" required>
+    </div>
+    
+    <!-- Agregar fechaFinal -->
+    <div class="form-group">
+        <label for="fechaFinal" class="control-label">Fecha Final</label>
+        <input type="date" class="form-control" name="fechaFinal" required>
+    </div>
+                <div class="form-group">
                     <label for="" class="control-label">Prestamo</label>
                         <select class="form-control" name="prestamo" required>
                         <option value="Préstamo Personal"<?php echo $prestamo == 'Préstamo Personal' ? ' selected' : ''; ?>>Préstamo Personal</option>

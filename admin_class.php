@@ -201,11 +201,11 @@ Class Action {
 				}
 			}
 		}
-		$check = $this->db->query("SELECT * FROM prestamos where prestamo ='$prestamo' and level ='$level' ".(!empty($id) ? " and id != {$id} " : ''))->num_rows;
-		if($check > 0){
-			return 2;
-			exit;
-		}
+		// $check = $this->db->query("SELECT * FROM prestamos where prestamo ='$prestamo' and level ='$level' ".(!empty($id) ? " and id != {$id} " : ''))->num_rows;
+		// if($check > 0){
+		// 	return 2;
+		// 	exit;
+		// }
 		if(empty($id)){
 			$save = $this->db->query("INSERT INTO prestamos set $data");
 			if($save){
